@@ -6,12 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -59,7 +66,21 @@ public class GreetingControllerImproveNoBoilerplateTest {
             jsonPath("$.say", equalTo("Hello " + pikachu)) // check it!
         )
         .andExpect(content().string(containsString(pikachu))) // check it again, another way
-        .andDo(document("greet pokemon")); // <-- need for generate docs and add descriptions for entities in doc
+        .andDo(document("greet pokemon",
+            preprocessRequest(prettyPrint()),
+            requestHeaders(
+                headerWithName("Accept")
+                    .description("Content type :)")
+            ),
+            responseFields(
+                fieldWithPath(".name")
+                    .description("Pokemon name")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath(".say")
+                    .description("Pokemon greetings")
+                    .type(JsonFieldType.STRING)
+            )
+        )); // <-- need for generate docs and add descriptions for entities in doc
 
     /* behind the scene:
 

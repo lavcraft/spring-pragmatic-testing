@@ -109,4 +109,30 @@ and: (add `.andDo` block)
     .andExpect(content().string(containsString(pikachu)))
     .andDo(document("greet pokemon"));
     
-Run build `./gradlew build` and look at build/generated-snippets directory. It is awesome! It is our request and response. It ready for including to asciidoc source!    
+Run build `./gradlew build` and look at build/generated-snippets directory. It is awesome! It is our request and response. It ready for including to asciidoc source!
+    
+Next, improve our docs! Add descriptions for documenting and checking
+    
+    .andDo(document("greet pokemon",
+        preprocessRequest(prettyPrint()),
+        requestHeaders(
+            headerWithName("Accept")
+                .description("Content type :)")
+        ),
+        responseFields(
+            fieldWithPath(".name")
+                .description("Pokemon name")
+                .type(JsonFieldType.STRING),
+            fieldWithPath(".say")
+                .description("Pokemon greetings")
+                .type(JsonFieldType.STRING)
+        )
+        ...
+
+Run the test again and look `generated-snippets` dir. We have a new files! Files with description
+        
+It is not just a description, because if something actually happened in test execution and this not related to you description - test fail with next description:
+        
+`Headers with the following names were not found in the request: [Accept]`
+
+And similar errors for request/response fields
