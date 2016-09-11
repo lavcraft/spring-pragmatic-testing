@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * @author tolkv
  * @version 11/09/16
@@ -21,7 +19,7 @@ public class PokemonRestWarehouseBackendPokemonService implements PokemonService
 
   @Override
   public Double getPokemonPower(String pokemonName) {
-    ResponseEntity<Double> forEntity = restTemplate.getForEntity(pokemonHome.getHome(), Double.class);
-    return forEntity.getBody();
+    ResponseEntity<String> forEntity = restTemplate.getForEntity(pokemonHome.getHome(), String.class);
+    return Double.valueOf(forEntity.getBody());
   }
 }
