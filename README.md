@@ -50,3 +50,5 @@ See the GreetingControllerTest.java. Say some words about Unit test problems and
 ResourceAccessException: I/O error on GET request for 
 "http://localhost:10000": Connection refused; nested exception is java.net.ConnectException: Connection refused
 ```
+
+Fix test with `@MockBean` or `@SpyBean` 
