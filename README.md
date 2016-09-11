@@ -95,3 +95,18 @@ And verify:
         getRequestedFor(
             urlEqualTo("/pokemonRepository/Bulbasaur")
         ).withoutHeader("Content-Type"));
+        
+## Step 5
+                
+We have a lot of Tests. Try to get the advanced benefits from our tests!
+
+Each integration test handle request/response to our app. Use this date for generate documentation!
+
+Add next annotation to some test: `@AutoConfigureRestDocs("build/generated-snippets")`
+
+and: (add `.andDo` block)
+
+    .andExpect(content().string(containsString(pikachu)))
+    .andDo(document("greet pokemon"));
+    
+Run build `./gradlew build` and look at build/generated-snippets directory. It is awesome! It is our request and response. It ready for including to asciidoc source!    
