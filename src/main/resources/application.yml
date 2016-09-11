@@ -1,3 +1,6 @@
 spring:
   application:
     name: pragmatic-testing
+
+pokemon:
+  home: http://localhost:10000

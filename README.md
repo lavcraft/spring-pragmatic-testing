@@ -23,3 +23,9 @@ See the GreetingControllerTest.java. Say some words about Unit test problems and
 * `open build/reports/tests/index.html`
 
 ## Step 2
+
+* Add `@MockMvcTest`. Avoid boileplate code. 
+* Add test with full context load `ApplicatoinTests.java`
+* Some words about MockMvc integrations with SpringSecuriry
+
+## Step 3
