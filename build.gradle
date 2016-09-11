@@ -24,6 +24,11 @@ dependencies {
   compile 'org.springframework.boot:spring-boot-actuator-docs'
   compile 'org.projectlombok:lombok'
   compile 'org.springframework.boot:spring-boot-starter-web'
+  compile 'com.github.tomakehurst:wiremock-standalone:2.1.9'
   testCompile 'org.springframework.boot:spring-boot-starter-test'
   testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '3.0'
 }

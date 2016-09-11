@@ -52,3 +52,46 @@ ResourceAccessException: I/O error on GET request for
 ```
 
 Fix test with `@MockBean` or `@SpyBean` 
+
+## Step 4
+
+Do you remember about external call? No? But we have a call to pokemon rest repository!
+
+    ResponseEntity<Double> forEntity = restTemplate
+        .getForEntity(
+            pokemonHome.getHome(), 
+            Double.class
+        );
+
+Do you want test it? Wiremock help you! But you have to say some words about `@RestClientTest` and `MockRestServiceServer`
+Let`s go:
+
+* Add WireMock dependency `compile 'com.github.tomakehurst:wiremock-standalone:2.1.9'` to build.gradle
+* Use WireMock JUnit rule in our tests. See `MockMvcBaseTest.java`
+
+
+    @Rule
+    public WireMockRule wireMockRule = new WireMockRule(
+        WireMockConfiguration.wireMockConfig()
+            .port(12000)
+            .notifier(new ConsoleNotifier(true))
+    );
+    
+* Add stub or verify logic in some tests:
+ 
+Stub:
+
+    stubFor(WireMock.get(
+        urlEqualTo("/pokemone/Bulbasaur"))
+        .willReturn(aResponse()
+            .withStatus(200)
+            .withBody("14.5")
+        )
+    );
+    
+And verify:
+    
+    wireMockRule.verify(
+        getRequestedFor(
+            urlEqualTo("/pokemonRepository/Bulbasaur")
+        ).withoutHeader("Content-Type"));

@@ -1,17 +1,15 @@
 package org.pgramatictesting;
 
+import com.github.tomakehurst.wiremock.client.WireMock;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.pgramatictesting.service.PokemonService;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -22,17 +20,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @version 11/09/16
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+@SpringBootTest(
+    webEnvironment = RANDOM_PORT,
+    properties = {"pokemon.home=http://localhost:12000/pokemonRepository/Bulbasaur"}
+)
 public class PokemonControllerTest extends MockMvcBaseTest {
-  @MockBean
-  PokemonService pokemonService;
+// OK but not actual for this test @MockBean
+// OK but not actual for this test PokemonService pokemonService;
 
   @Test
   public void should_return_power() throws Exception {
     //given
     String bulbasaur = "Bulbasaur";
-    given(pokemonService.getPokemonPower(any()))
-        .willReturn(15.0d);
+// OK but not actual for this test   given(pokemonService.getPokemonPower(any()))
+// OK but not actual for this test       .willReturn(15.0d);
+    stubFor(WireMock.get(
+        urlEqualTo("/pokemonRepository/Bulbasaur"))
+        .willReturn(aResponse()
+            .withStatus(200)
+            .withBody("14.5")
+        )
+    );
 
     //expect
     mockMvc.perform(
@@ -46,6 +54,11 @@ public class PokemonControllerTest extends MockMvcBaseTest {
         .andExpect(
             jsonPath("$.power", Matchers.closeTo(15.0d, 1.0d))
         );
+
+    wireMockRule.verify(
+        getRequestedFor(
+            urlEqualTo("/pokemonRepository/Bulbasaur")
+        ).withoutHeader("Content-Type"));
   }
 
 }
