@@ -170,3 +170,18 @@ asciidoctor {
 * include all needed files from autogeneration directory (use `snippets` var in asciidoc file)
 * run command `./gradlew clean asciidoctor`
 * See your docs `open build/asciidoc/html5/index.html`
+
+## Step 7
+
+Publish docs
+
+Add to build.gradle:
+
+    jar {
+      dependsOn asciidoctor
+      from("${asciidoctor.outputDir}/html5") {
+        into 'static/api-docs'
+      }
+    }
+
+Run `./gradlew build` and go to [localhost:8080/api-docs](http://localhost:8080/api-docs/index.html)    
