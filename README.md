@@ -136,3 +136,37 @@ It is not just a description, because if something actually happened in test exe
 `Headers with the following names were not found in the request: [Accept]`
 
 And similar errors for request/response fields
+
+## Step 6
+
+Make single document for all project documentation. Use asciidoctor for solve it.
+
+* Add dependencies to build.gradle
+
+```groovy
+plugins {
+  id "org.asciidoctor.convert" version "1.5.2"
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+ext {
+  snippetsDir = file('build/generated-snippets')
+}
+
+test {
+  outputs.dir snippetsDir
+}
+
+asciidoctor {
+  attributes 'snippets': snippetsDir
+  inputs.dir snippetsDir
+  dependsOn test
+}
+```
+
+* create `src/docs/asciidoc/index.adoc` file, which represent our single page doc.
+* include all needed files from autogeneration directory (use `snippets` var in asciidoc file)
+* run command `./gradlew clean asciidoctor`
+* See your docs `open build/asciidoc/html5/index.html`

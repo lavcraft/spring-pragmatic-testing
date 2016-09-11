@@ -16,6 +16,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -68,6 +69,7 @@ public class GreetingControllerImproveNoBoilerplateTest {
         .andExpect(content().string(containsString(pikachu))) // check it again, another way
         .andDo(document("greet pokemon",
             preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint()),
             requestHeaders(
                 headerWithName("Accept")
                     .description("Content type :)")

@@ -1,0 +1,36 @@
+= Pokemon API
+Tolkachev Kirill <tolk.kv@gmail.com>
+
+== Greet API
+
+If you were a pokemon, i`d choose you!
+
+=== GET greeting
+
+==== Request headers
+
+include::{snippets}/greet pokemon/request-headers.adoc[]
+
+==== Response fields
+
+include::{snippets}/greet pokemon/response-fields.adoc[]
+
+==== Examples
+
+===== Curl Request GET
+
+include::{snippets}/greet pokemon/curl-request.adoc[]
+
+===== Httpie Request GET
+
+include::{snippets}/greet pokemon/httpie-request.adoc[]
+
+===== HTTP Request GET
+
+include::{snippets}/greet pokemon/http-request.adoc[]
+
+===== HTTP Response GET
+
+include::{snippets}/greet pokemon/http-response.adoc[]
+
+// ==================================================================

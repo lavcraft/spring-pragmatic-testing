@@ -4,8 +4,26 @@ buildscript {
   dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") }
 }
 
+plugins {
+  id "org.asciidoctor.convert" version "1.5.2"
+}
+
 apply plugin: 'java'
 apply plugin: 'spring-boot'
+
+ext {
+  snippetsDir = file('build/generated-snippets')
+}
+
+test {
+  outputs.dir snippetsDir
+}
+
+asciidoctor {
+  attributes 'snippets': snippetsDir
+  inputs.dir snippetsDir
+  dependsOn test
+}
 
 jar {
   baseName = 'spring'
