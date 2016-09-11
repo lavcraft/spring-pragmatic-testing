@@ -2,6 +2,8 @@
 
 ## Step 1
 
+Run application by `./gradlew bootRun` command
+
     $ http :8080/greet/kirill
     
     HTTP/1.1 200
