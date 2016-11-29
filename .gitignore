@@ -5,6 +5,9 @@
 *.ear
 hs_err_pid*
 
+### OSX template
+.DS_Store
+
 # IntelliJ
 .idea
 *.iws

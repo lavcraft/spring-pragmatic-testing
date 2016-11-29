@@ -1,6 +1,9 @@
 spring:
   application:
     name: pragmatic-testing
+  mvc:
+    favicon:
+      enabled: false
 
 pokemon:
   home: http://localhost:10000
